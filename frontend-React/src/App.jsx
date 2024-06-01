@@ -1,9 +1,12 @@
 import "./App.css";
+import Navbar from "./components/Navbar";
+import Books from "./pages/Books";
 
 function App() {
   return (
     <>
-      <h1>Book App</h1>
+      <Navbar />
+      <Books />
     </>
   );
 }
