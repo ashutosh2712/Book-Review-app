@@ -7,7 +7,10 @@
   list-style: none;
   text-decoration: none;
 }
-
+a {
+  text-decoration: none;
+  color: initial;
+}
 :root {
   --color-bg: #1f1f42;
   --color-bg-variant: #2f2f7a;
@@ -91,4 +94,62 @@ body {
   width: 200px;
   height: 200px;
   object-fit: contain;
+}
+
+/* Book Page */
+.bookContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  margin-top: 3rem;
+  gap: 1rem;
+}
+
+.bookDetails {
+  display: grid;
+  grid-template-columns: 30% 60%;
+  gap: 2rem;
+}
+.bookImgContainer,
+.bookDetailsPoints {
+  border: 1px solid gold;
+}
+.bookImgContainer {
+  margin-left: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.bookDetailsPoints {
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.bookDetailsImg {
+  width: 300px;
+  height: 300px;
+  object-fit: contain;
+}
+
+.homeLink {
+  padding: 1rem;
+  background: var(--color-primary);
+  color: var(--color-white);
+  font-weight: bold;
+  border-radius: 0.2rem;
+}
+
+.homeLink:hover {
+  cursor: pointer;
+  padding: 1.05rem;
+  background: var(--color-success);
+}
+
+.footerContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }

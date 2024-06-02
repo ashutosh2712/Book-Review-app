@@ -45,7 +45,7 @@ export const books = [
     genre: "Non-Fiction",
     description:
       "Darwin's book introduced the scientific theory that populations evolve over the course of generations through a process of natural selection although Lamarckism was also included as a mechanism of lesser importance. The book presented a body of evidence that the diversity of life arose by common descent through a branching pattern of evolution. Darwin included evidence that he had collected on the Beagle expedition in the 1830s and his subsequent findings from research, correspondence, and experimentation.",
-    Average_Rating: 5.0,
+    average_rating: 5.0,
     user_reviews: ["Great book", "Awsome Book"],
     image: Origin,
   },
@@ -56,7 +56,7 @@ export const books = [
     genre: "Non-Fiction",
     description:
       "The Richest Man in Babylon is a 1926 book by George S. Clason that dispenses financial advice through a collection of parables set 4,097 years earlier, in ancient Babylon. The book remains in print almost a century after the parables were originally published, and is regarded as a classic of personal financial advice.",
-    Average_Rating: 3.0,
+    average_rating: 3.0,
     user_reviews: ["Great book", "Awsome Book", "Worth to read"],
     image: Rich,
   },
@@ -67,7 +67,7 @@ export const books = [
     genre: "Non-Fiction",
     description:
       "The first full biography of Albert Einstein since all of his papers have become available a fully realised portrait of this extraordinary human being, and great genius.",
-    Average_Rating: 3.0,
+    average_rating: 3.0,
     user_reviews: ["Great book", "Awsome Book", "Worth to read"],
     image: Einstein,
   },
