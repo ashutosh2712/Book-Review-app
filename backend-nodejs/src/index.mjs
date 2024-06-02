@@ -1,7 +1,15 @@
 import express from "express";
 import bookRouter from "./routes/books.mjs";
 import userRouter from "./routes/users.mjs";
+import mongoose from "mongoose";
+
 const app = express();
+
+//databse connection
+mongoose
+  .connect("mongodb://localhost:27017/book_review")
+  .then(console.log("Connected to mongoDb database!"))
+  .catch((err) => console.log(`Error connecting to Db:${err}`));
 
 app.use(express.json());
 app.use(bookRouter);

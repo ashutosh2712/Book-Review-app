@@ -1,15 +1,19 @@
 import { Router } from "express";
-import { Users } from "../utils/constant.mjs";
+import { Users } from "../../mongoose/schemas/Users.mjs";
 
 const router = Router();
 
-router.post("/api/users", (request, response) => {
+router.post("/api/users", async (request, response) => {
   //   console.log(request.body);
   const { body } = request;
-  const newUser = { _id: Users[Users.length - 1]._id + 1, ...body };
-  Users.push(newUser);
-  //   console.log(Users);
-  return response.status(200).send(newUser);
+  const newUser = new Users(body);
+  try {
+    const savedUser = await newUser.save();
+    return response.status(201).send(savedUser);
+  } catch (err) {
+    console.log(err);
+    return response.statusCode(400);
+  }
 });
 
 export default router;

@@ -1,37 +1,57 @@
 import { Router } from "express";
-import { Books } from "../utils/constant.mjs";
-
+import mongoose from "mongoose";
+// import { Books } from "../utils/constant.mjs";
+import { Books } from "../../mongoose/schemas/Books.mjs";
 const router = Router();
 
-router.get("/api/books", (request, response) => {
-  console.log(request.query);
-  const { author, genre, title } = request.query;
-  let filteredBooks = Books;
-  if (author) {
-    filteredBooks = filteredBooks.filter((book) =>
-      book.author.includes(author)
-    );
+router.post("/api/books", async (request, response) => {
+  const { body } = request;
+  const newBook = new Books(body);
+  try {
+    const savedBook = await newBook.save();
+    return response.status(201).send(savedBook);
+  } catch (err) {
+    console.log(err);
+    return response.statusCode(400);
   }
-  if (genre) {
-    filteredBooks = filteredBooks.filter((book) => book.genre.includes(genre));
-  }
-  if (title) {
-    filteredBooks = filteredBooks.filter((book) => book.title.includes(title));
-  }
-
-  response.status(200).send(filteredBooks);
 });
 
-router.get("/api/books/:id", (request, response) => {
-  const parseId = parseInt(request.params.id);
-  if (isNaN(parseId)) {
-    return response.status(400).send({ err: "Invalid Book Id" });
+router.get("/api/books", async (request, response) => {
+  console.log(request.query);
+  const { author, genre, title } = request.query;
+  const query = {};
+  if (author) {
+    query.author = new RegExp(author, "i");
   }
-  const findbook = Books.find((book) => book._id === parseId);
-  if (!findbook) {
-    return response.status(404).send({ err: "Book Not found" });
+  if (genre) {
+    query.genre = new RegExp(genre, "i");
+  }
+  if (title) {
+    query.title = new RegExp(title, "i");
   }
 
-  return response.send(findbook);
+  try {
+    const filteredBooks = await Books.find(query);
+    response.status(200).send(filteredBooks);
+  } catch (err) {
+    response.status(500).send({ message: err.message });
+  }
+});
+
+router.get("/api/books/:id", async (request, response) => {
+  const { id } = request.params;
+
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return response.status(400).send({ err: "Invalid Book Id" });
+  }
+  try {
+    const book = await Books.findById(id);
+    if (!book) {
+      return response.status(404).send({ err: "Book Not Found" });
+    }
+    return response.send(book);
+  } catch (err) {
+    return response.status(500).send({ err: err.message });
+  }
 });
 export default router;

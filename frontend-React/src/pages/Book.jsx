@@ -49,7 +49,11 @@ const Book = () => {
           </p>
           <p>
             <b>User Reviews: </b>
-            {renderBook.user_reviews}
+            <ul>
+              {renderBook.user_reviews.map((review) => (
+                <li>{review}</li>
+              ))}
+            </ul>
           </p>
         </div>
       </div>
