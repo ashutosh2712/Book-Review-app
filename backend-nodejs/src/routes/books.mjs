@@ -1,12 +1,37 @@
 import { Router } from "express";
 import mongoose from "mongoose";
 // import { Books } from "../utils/constant.mjs";
+import multer from "multer";
+import path from "path";
 import { Books } from "../../mongoose/schemas/Books.mjs";
 const router = Router();
 
-router.post("/api/books", async (request, response) => {
-  const { body } = request;
-  const newBook = new Books(body);
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, "../uploads");
+  },
+  filename: (req, file, cb) => {
+    cb(null, `${Date.now()}- ${file.originalname}`);
+  },
+});
+
+const upload = multer({ storage });
+router.post("/api/books", upload.single("image"), async (request, response) => {
+  const { title, author, genre, description } = request.body;
+
+  // const image = request.file.path;
+
+  const image = "../uploads" + request.file.filename;
+
+  const newBook = new Books({
+    title,
+    author,
+    genre,
+    description,
+    image,
+    user_reviews: [],
+    average_rating: 0,
+  });
   try {
     const savedBook = await newBook.save();
     return response.status(201).send(savedBook);
