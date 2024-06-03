@@ -2,7 +2,7 @@ import express from "express";
 import bookRouter from "./routes/books.mjs";
 import userRouter from "./routes/users.mjs";
 import mongoose from "mongoose";
-
+import cors from "cors";
 const app = express();
 
 //databse connection
@@ -12,6 +12,11 @@ mongoose
   .catch((err) => console.log(`Error connecting to Db:${err}`));
 
 app.use(express.json());
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+  })
+);
 app.use(bookRouter);
 app.use(userRouter);
 const PORT = process.env.PORT || 3000;

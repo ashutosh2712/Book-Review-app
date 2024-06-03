@@ -58,6 +58,7 @@ body {
   border-radius: 0.25rem;
   color: var(--color-white);
   font-weight: bolder;
+  width: fit-content;
 }
 .btn:hover {
   padding: 0.36rem;
@@ -112,7 +113,8 @@ body {
   gap: 2rem;
 }
 .bookImgContainer,
-.bookDetailsPoints {
+.bookDetailsPoints,
+.writeReview {
   border: 1px solid gold;
 }
 .bookImgContainer {
@@ -152,4 +154,28 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.writeReview {
+  margin-left: 1rem;
+  padding: 1rem;
+}
+
+.reviewForm {
+  display: flex;
+  flex-direction: column;
+  width: 25vw;
+}
+
+.reviewRating {
+  margin-top: 1rem;
+  display: flex;
+  justify-content: space-between;
+}
+
+.reviewTextarea {
+  margin-top: 1rem;
+  border: 1px solid gray;
+  font-size: 1rem;
+  margin-bottom: 1rem;
 }

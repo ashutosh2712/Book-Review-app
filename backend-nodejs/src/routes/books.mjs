@@ -40,7 +40,7 @@ router.get("/api/books", async (request, response) => {
 
 router.get("/api/books/:id", async (request, response) => {
   const { id } = request.params;
-
+  console.log("server id:", id);
   if (!mongoose.Types.ObjectId.isValid(id)) {
     return response.status(400).send({ err: "Invalid Book Id" });
   }
@@ -52,6 +52,38 @@ router.get("/api/books/:id", async (request, response) => {
     return response.send(book);
   } catch (err) {
     return response.status(500).send({ err: err.message });
+  }
+});
+
+router.post("/api/books/:id/reviews", async (request, response) => {
+  const { id } = request.params;
+  const { rating, review } = request.body;
+
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return response.status(400).send({ err: "Invalid Book Id" });
+  }
+
+  if (!rating && !review) {
+    return response.status(400).send({ err: "Review and rating are required" });
+  }
+
+  try {
+    const book = await Books.findById(id);
+
+    if (!book) {
+      return response.status(404).send({ err: "Book Not Found" });
+    }
+    book.user_reviews.push(review);
+    // book.average_rating
+    const totalReviews = book.user_reviews.length;
+    const newAvgRating =
+      (book.average_rating * (totalReviews - 1) + rating) / totalReviews;
+    book.average_rating = newAvgRating > 5 ? 5 : newAvgRating;
+
+    await book.save();
+    response.status(200).send({ message: "Review added successfully" });
+  } catch (err) {
+    response.status(500).send({ err: err.message });
   }
 });
 export default router;
