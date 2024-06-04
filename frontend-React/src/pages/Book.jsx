@@ -5,7 +5,7 @@ import axios from "axios";
 const Book = () => {
   const { id } = useParams();
   const bookId = id;
-  console.log(id);
+
   const [book, setBook] = useState({});
 
   const [rating, setRating] = useState(0);
@@ -19,9 +19,8 @@ const Book = () => {
         );
         if (response.data) {
           setBook(response.data);
-          console.log("server data:", response.data);
         } else {
-          console.log("Response is empty");
+          console.error("Response is empty");
         }
       } catch (err) {
         console.error("Error loding book info:", err);
@@ -31,7 +30,6 @@ const Book = () => {
   }, [bookId]);
 
   if (!book) {
-    console.log("Book Data:", book);
     console.error("No Book found with the given id");
   }
   const submitHandler = async (e) => {
@@ -99,7 +97,7 @@ const Book = () => {
           </p>
         </div>
         <div className="writeReview">
-          <h3>Write your review</h3>
+          <h3>Rate and Review</h3>
           <form onSubmit={submitHandler} className="reviewForm">
             <div className="reviewRating">
               <label htmlFor="rating">Rating</label>

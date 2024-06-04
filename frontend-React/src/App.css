@@ -179,3 +179,26 @@ body {
   font-size: 1rem;
   margin-bottom: 1rem;
 }
+
+/* ========================== MEDIA QUERIES(TABLET)=================== */
+@media screen and (max-width: 1024px) {
+  .booksList {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* ========================== MEDIA QUERIES(MOBILE)=================== */
+@media screen and (max-width: 600px) {
+  .navContainer {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .booksList {
+    grid-template-columns: 1fr;
+  }
+
+  .bookDetails {
+    grid-template-columns: 1fr;
+  }
+}
