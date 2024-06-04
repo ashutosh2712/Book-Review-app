@@ -62,8 +62,11 @@ const Book = () => {
       </Link>
       <div className="bookDetails">
         <div className="bookImgContainer">
-          {/* <img src={book.image} alt="book-image" className="bookDetailsImg" /> */}
-          {book.image}
+          <img
+            src={`http://localhost:3000/uploads/` + book.image}
+            alt={book.image}
+            className="bookDetailsImg"
+          />
         </div>
         <div className="bookDetailsPoints">
           <p>
@@ -80,7 +83,7 @@ const Book = () => {
           </p>
           <p>
             <b>Average rating: </b>
-            {book.average_rating}
+            {book.average_rating > 0 ? book.average_rating.toFixed(1) : 0}
           </p>
           <p>
             <b>User Reviews: </b>

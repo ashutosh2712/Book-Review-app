@@ -8,10 +8,10 @@ const router = Router();
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, "../uploads");
+    cb(null, "src/uploads");
   },
   filename: (req, file, cb) => {
-    cb(null, `${Date.now()}- ${file.originalname}`);
+    cb(null, `${Date.now()}-${file.originalname}`);
   },
 });
 
@@ -19,9 +19,9 @@ const upload = multer({ storage });
 router.post("/api/books", upload.single("image"), async (request, response) => {
   const { title, author, genre, description } = request.body;
 
-  // const image = request.file.path;
+  const image = request.file.filename;
 
-  const image = "../uploads" + request.file.filename;
+  // const image = "../uploads" + request.file.filename;
 
   const newBook = new Books({
     title,
@@ -36,13 +36,12 @@ router.post("/api/books", upload.single("image"), async (request, response) => {
     const savedBook = await newBook.save();
     return response.status(201).send(savedBook);
   } catch (err) {
-    console.log(err);
+    console.error(err);
     return response.statusCode(400);
   }
 });
 
 router.get("/api/books", async (request, response) => {
-  console.log(request.query);
   const { author, genre, title } = request.query;
   const query = {};
   if (author) {
@@ -65,7 +64,7 @@ router.get("/api/books", async (request, response) => {
 
 router.get("/api/books/:id", async (request, response) => {
   const { id } = request.params;
-  console.log("server id:", id);
+
   if (!mongoose.Types.ObjectId.isValid(id)) {
     return response.status(400).send({ err: "Invalid Book Id" });
   }
@@ -111,4 +110,29 @@ router.post("/api/books/:id/reviews", async (request, response) => {
     response.status(500).send({ err: err.message });
   }
 });
+
+router.patch(
+  "/api/books/:id/image",
+  upload.single("image"),
+  async (request, response) => {
+    try {
+      const { id } = request.params;
+      const image = request.file.filename;
+
+      const updatedBook = await Books.findByIdAndUpdate(
+        id,
+        { image },
+        { new: true, runValidators: true }
+      );
+
+      if (!updatedBook) {
+        return response.status(404).send({ err: "Book Not Found" });
+      }
+
+      response.status(200).send(updatedBook);
+    } catch (err) {
+      response.status(500).send({ err: err.message });
+    }
+  }
+);
 export default router;
