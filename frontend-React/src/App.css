@@ -201,4 +201,7 @@ body {
   .bookDetails {
     grid-template-columns: 1fr;
   }
+  .navSearch {
+    flex-direction: column;
+  }
 }
