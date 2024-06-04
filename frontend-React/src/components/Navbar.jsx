@@ -1,11 +1,11 @@
 import React from "react";
 import SearchBar from "./SearchBar";
 
-const Navbar = () => {
+const Navbar = ({ onSearch }) => {
   return (
     <nav className="navContainer">
       <h2 className="titleContainer">Book Review</h2>
-      <SearchBar />
+      <SearchBar onSearch={onSearch} />
       <div className="rightNav">SignIn</div>
     </nav>
   );

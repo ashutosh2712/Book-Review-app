@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import "./App.css";
 import Footer from "./components/Footer";
 import Navbar from "./components/Navbar";
@@ -9,12 +10,30 @@ import {
   Route,
   Link,
 } from "react-router-dom";
+import axios from "axios";
 
 function App() {
+  const [books, setBooks] = useState([]);
+
+  const fetchBooks = async (searchParams = {}) => {
+    try {
+      const response = await axios.get(`http://localhost:3000/api/books`, {
+        params: searchParams,
+      });
+      setBooks(response.data);
+    } catch (error) {
+      console.error("Error fetching books:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchBooks();
+  }, []);
+
   const router = createBrowserRouter([
     {
       path: "/",
-      element: <Books />,
+      element: <Books books={books} />,
     },
     {
       path: "books/:id",
@@ -23,7 +42,7 @@ function App() {
   ]);
   return (
     <>
-      <Navbar />
+      <Navbar onSearch={fetchBooks} />
       <RouterProvider router={router} />
       <Footer />
     </>
